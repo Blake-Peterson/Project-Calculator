@@ -11,6 +11,11 @@
   background-color: lightgray;
 }
 
+.button_layout {
+  display: flex;
+  flex-direction: row;
+}
+
 button {
   background-color: gray;
   border: none;

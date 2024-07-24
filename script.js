@@ -38,47 +38,76 @@ function create_display(){
     container.appendChild(display);
 }
 
-function create_calculator_button_layout(){
-    let symbol="";
-    for(let i=0;i<4;i++){
+function create_num_buttons(button_layout){
+    const num_buttons_div = document.createElement("div");
+    let number = 0;
+    for(let i=0;i<3;i++){
         const rows = document.createElement("div");
-        container.appendChild(rows);
-        for(let j=0;j<4;j++){
+        num_buttons_div.appendChild(rows);
+        for(let j=0;j<3;j++){
             const buttons = document.createElement("button");
-            let number = (i*4)+j;
-            if(number>9){
-                switch(number){
-                    case 10:
-                        symbol="+";
-                        break;
-                    case 11:
-                        symbol="-";
-                        break;
-                    case 12:
-                        symbol="X";
-                        break;
-                    case 13:
-                        symbol="/";
-                        break;
-                    case 14:
-                        symbol=".";
-                        break;
-                    case 15:
-                        symbol="=";
-                        break;
-                }
-                buttons.textContent = symbol;
-            } else{
-                buttons.textContent = number.toString();
-            }
+            number = (i*3)+j+1;
+            buttons.textContent = number.toString();
             rows.appendChild(buttons);
         }
     }
+    const zero_button = document.createElement("button");
+    zero_button.textContent = "0";
+    num_buttons_div.appendChild(zero_button);
+    button_layout.appendChild(num_buttons_div);  
+        
+}
+
+function create_operator_buttons(parent_div){
+    const operater_div = document.createElement("div");
+    for(let i=0;i<3;i++){
+        const rows = document.createElement("div");
+        operater_div.appendChild(rows);
+        for(let j=0;j<2;j++){
+            const buttons = document.createElement("button");
+            let value = (i*2)+j;
+            switch(value){
+                case 0:
+                    symbol = "+";
+                    break;
+                case 1:
+                    symbol = "-";
+                    break;
+                case 2:
+                    symbol = "*";
+                    break;
+                case 3:
+                    symbol = "/";
+                    break;
+                case 4:
+                    symbol = "=";
+                    break;
+                case 5:
+                    symbol = ".";
+                    break;    
+            }
+            buttons.textContent= symbol;
+            rows.appendChild(buttons);   
+        }
+    }
+    const clear_button = document.createElement("button");
+    clear_button.textContent = "Clear";
+    operater_div.appendChild(clear_button);
+
+    parent_div.appendChild(operater_div);
+}
+
+function create_button_layout(){
+    const button_layout = document.createElement("div");
+    button_layout.classList.add("button_layout");
+    container.appendChild(button_layout);
+    create_num_buttons(button_layout);
+    create_operator_buttons(button_layout);
 }
 
 function create_calculator(){
     create_display();
-    create_calculator_button_layout();
+    create_button_layout();
 }
 
 create_calculator();
