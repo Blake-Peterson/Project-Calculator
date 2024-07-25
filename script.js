@@ -2,6 +2,7 @@ let first_num;
 let operator;
 let second_num;
 const container = document.querySelector("#container");
+let display_value = "";
 
 function add(num1, num2){
     return num1+num2;
@@ -32,10 +33,17 @@ function operate(first_num,operation, second_num){
     return result;
 }
 
-function create_display(){
+function create_display(input){
     const display = document.createElement("div");
+    display.textContent=input;
     display.setAttribute("id","display");
     container.appendChild(display);
+}
+
+function update_display(input){
+    const display = document.getElementById('display');
+    display_value = display_value+input;
+    display.textContent = display_value;
 }
 
 function create_num_buttons(button_layout){
@@ -48,14 +56,15 @@ function create_num_buttons(button_layout){
             const buttons = document.createElement("button");
             number = (i*3)+j+1;
             buttons.textContent = number.toString();
+            buttons.addEventListener("click",()=>update_display(buttons.textContent));
             rows.appendChild(buttons);
         }
     }
     const zero_button = document.createElement("button");
     zero_button.textContent = "0";
+    zero_button.addEventListener("click",()=>update_display(zero_button.textContent));
     num_buttons_div.appendChild(zero_button);
-    button_layout.appendChild(num_buttons_div);  
-        
+    button_layout.appendChild(num_buttons_div);     
 }
 
 function create_operator_buttons(parent_div){
@@ -93,9 +102,10 @@ function create_operator_buttons(parent_div){
     const clear_button = document.createElement("button");
     clear_button.textContent = "Clear";
     operater_div.appendChild(clear_button);
-
     parent_div.appendChild(operater_div);
 }
+
+
 
 function create_button_layout(){
     const button_layout = document.createElement("div");
