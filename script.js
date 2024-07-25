@@ -42,7 +42,11 @@ function create_display(input){
 
 function update_display(input){
     const display = document.getElementById('display');
-    display_value = display_value+input;
+    if(input === "Clear"){
+        display_value = "";
+    } else {
+        display_value = display_value+input;
+    }
     display.textContent = display_value;
 }
 
@@ -96,11 +100,13 @@ function create_operator_buttons(parent_div){
                     break;    
             }
             buttons.textContent= symbol;
+            buttons.addEventListener("click",()=> update_display(buttons.textContent));
             rows.appendChild(buttons);   
         }
     }
     const clear_button = document.createElement("button");
     clear_button.textContent = "Clear";
+    clear_button.addEventListener("click",()=>update_display("Clear"));
     operater_div.appendChild(clear_button);
     parent_div.appendChild(operater_div);
 }
