@@ -54,13 +54,13 @@ function update_display(input){
 
     if(input === "Clear"){
         display_value = "0";
+    } else if(second_num && validate_operator(input)){
+        operator_overflow(input);
     } else if(validate_operator(input)){
         operator = input;
     } else if (input === "="){
         display_value = operate(first_num,operator,second_num);
-    } else if(second_num && validate_operator(input)){
-        operator_overflow(input);
-    } else {
+    }else {
         display_value = display_value+input;
     }
 
