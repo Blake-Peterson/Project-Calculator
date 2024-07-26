@@ -1,8 +1,8 @@
-let first_num;
-let operator;
-let second_num;
+let first_num="0";
+let operator="";
+let second_num="";
 const container = document.querySelector("#container");
-let display_value = "0";
+let display_value = "";
 
 function add(num1, num2){
     return num1+num2;
@@ -30,10 +30,8 @@ function operate(first_num,operation, second_num){
     } else if(operation === "/"){
         result=divide(parseInt(first_num),parseInt(second_num));
     }
-    first_num = result;
-    second_num = "";
-    operator="";
-    return result;
+
+    return result.toString();
 }
 
 function create_display(input){
@@ -45,25 +43,32 @@ function create_display(input){
 
 function update_display(input){
     const display = document.getElementById('display');
-    
-    if(operator){
-        second_num+= input;
-    } else{
-        first_num += input;
-    }
 
     if(input === "Clear"){
-        display_value = "0";
+        first_num="0";
+        operator = "";
+        second_num = "";
+        display_value =first_num;
     } else if(second_num && validate_operator(input)){
         operator_overflow(input);
     } else if(validate_operator(input)){
         operator = input;
     } else if (input === "="){
         display_value = operate(first_num,operator,second_num);
-    }else {
-        display_value = display_value+input;
+        first_num = display_value;
+        second_num = "";
+        operator="";
+    } else if(operator){//display 2nd number if there exists an operator
+        second_num+= input;
+        display_value=second_num;
+    } else if(first_num==="0"){
+        first_num = input;
+        display_value = first_num;
+    } else{
+        first_num += input;
+        display_value = first_num;
     }
-
+    console.log(display_value);
     display.textContent = display_value;
 }
 
@@ -83,7 +88,7 @@ function operator_overflow(new_operator){
         operator = new_operator;
         first_num = result;
         second_num = "";
-        return result;
+        return result.toString();
     }
 }
 
