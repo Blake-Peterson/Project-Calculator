@@ -3,6 +3,7 @@ let operator="";
 let second_num="";
 const container = document.querySelector("#container");
 let display_value = "";
+let new_num_flag = true;
 
 function add(num1, num2){
     return num1+num2;
@@ -30,7 +31,6 @@ function operate(first_num,operation, second_num){
     } else if(operation === "/"){
         result=divide(parseInt(first_num),parseInt(second_num));
     }
-
     return result.toString();
 }
 
@@ -43,12 +43,12 @@ function create_display(input){
 
 function update_display(input){
     const display = document.getElementById('display');
-
     if(input === "Clear"){
         first_num="0";
         operator = "";
         second_num = "";
         display_value =first_num;
+        new_num_flag = false;
     } else if(second_num && validate_operator(input)){
         operator_overflow(input);
     } else if(validate_operator(input)){
@@ -58,6 +58,7 @@ function update_display(input){
         first_num = display_value;
         second_num = "";
         operator="";
+        new_num_flag=true;
     } else if(operator){//display 2nd number if there exists an operator
         second_num+= input;
         display_value=second_num;
@@ -65,7 +66,11 @@ function update_display(input){
         first_num = input;
         display_value = first_num;
     } else{
-        first_num += input;
+        if(new_num_flag === true){
+            first_num=input;
+        } else{
+            first_num += input;
+        }
         display_value = first_num;
     }
     console.log(display_value);
