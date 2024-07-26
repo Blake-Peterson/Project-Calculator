@@ -22,13 +22,13 @@ function divide(num1,num2){
 
 function operate(first_num,operation, second_num){
     if (operation === "+"){
-        result=add(first_num,second_num);
+        result=add(parseInt(first_num),parseInt(second_num));
     } else if (operation === "-"){
-        result=subtract(first_num,second_num);
+        result=subtract(parseInt(first_num),parseInt(second_num));
     } else if (operation === "*"){
-        result=multiply(first_num,second_num);
+        result=multiply(parseInt(first_num),parseInt(second_num));
     } else if(operation === "/"){
-        result=divide(first_num,second_num);
+        result=divide(parseInt(first_num),parseInt(second_num));
     }
     first_num = result;
     second_num = "";
@@ -58,11 +58,9 @@ function update_display(input){
         operator = input;
     } else if (input === "="){
         display_value = operate(first_num,operator,second_num);
-    } else if(second_num){
-
-    }
-    
-    else {
+    } else if(second_num && validate_operator(input)){
+        operator_overflow(input);
+    } else {
         display_value = display_value+input;
     }
 
@@ -84,10 +82,8 @@ function operator_overflow(new_operator){
         let result = operate(first_num,operator,second_num);
         operator = new_operator;
         first_num = result;
-        second_num = 0;
+        second_num = "";
         return result;
-    }else {
-        operator = new_operator;
     }
 }
 
