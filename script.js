@@ -2,7 +2,7 @@ let first_num;
 let operator;
 let second_num;
 const container = document.querySelector("#container");
-let display_value = "";
+let display_value = "0";
 
 function add(num1, num2){
     return num1+num2;
@@ -30,6 +30,9 @@ function operate(first_num,operation, second_num){
     } else if(operation === "/"){
         result=divide(first_num,second_num);
     }
+    first_num = result;
+    second_num = "";
+    operator="";
     return result;
 }
 
@@ -42,12 +45,50 @@ function create_display(input){
 
 function update_display(input){
     const display = document.getElementById('display');
+    
+    if(operator){
+        second_num+= input;
+    } else{
+        first_num += input;
+    }
+
     if(input === "Clear"){
-        display_value = "";
-    } else {
+        display_value = "0";
+    } else if(validate_operator(input)){
+        operator = input;
+    } else if (input === "="){
+        display_value = operate(first_num,operator,second_num);
+    } else if(second_num){
+
+    }
+    
+    else {
         display_value = display_value+input;
     }
+
     display.textContent = display_value;
+}
+
+function validate_operator(oper){
+    let valid_operators = "+-/*";
+    for(let i=0;i<4;i++){
+        if(valid_operators[i]===oper){
+            return true;
+        }
+    }
+    return false;
+}
+
+function operator_overflow(new_operator){
+    if (first_num && operator && second_num){
+        let result = operate(first_num,operator,second_num);
+        operator = new_operator;
+        first_num = result;
+        second_num = 0;
+        return result;
+    }else {
+        operator = new_operator;
+    }
 }
 
 function create_num_buttons(button_layout){
@@ -110,8 +151,6 @@ function create_operator_buttons(parent_div){
     operater_div.appendChild(clear_button);
     parent_div.appendChild(operater_div);
 }
-
-
 
 function create_button_layout(){
     const button_layout = document.createElement("div");
